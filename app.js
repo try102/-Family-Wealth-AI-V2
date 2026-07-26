@@ -141,46 +141,43 @@ function updatePortfolioDisplay(){
 }
 function addNewAsset(){
 
-    const asset = {
+    let asset = {
 
-        name:
+        name: document.getElementById("assetName").value,
 
-        document.getElementById("assetName").value,
+        category: document.getElementById("assetCategory").value,
 
-        category:
+        type: document.getElementById("assetType").value,
 
-        document.getElementById("assetCategory").value,
+        country: document.getElementById("assetCountry").value,
 
-        type:
+        currency: document.getElementById("assetCurrency").value,
 
-        document.getElementById("assetType").value,
+        institution: document.getElementById("assetInstitution").value,
 
-        country:
+        account: document.getElementById("assetAccount").value,
 
-        document.getElementById("assetCountry").value,
+        amount: Number(
 
-        currency:
-
-        document.getElementById("assetCurrency").value,
-
-        institution:
-
-        document.getElementById("assetInstitution").value,
-
-        account:
-
-        document.getElementById("assetAccount").value,
-
-        amount:
-
-        Number(
-
-        document.getElementById("assetAmount").value
+            document.getElementById("assetAmount").value
 
         )
 
     };
 
+    if(!asset.name || !asset.amount){
+
+        alert("请输入资产名称和金额");
+
+        return;
+
+    }
+
+    addAsset(asset);
+
+    updateAssetDisplay();
+
+}
     if(!asset.name || !asset.amount){
 
         alert("请输入资产名称和金额");
