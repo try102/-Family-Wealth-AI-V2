@@ -135,3 +135,18 @@ window.addEventListener(
 }
 
 );
+function deleteAsset(index){
+
+    let assets = getAssets();
+
+    assets.splice(index,1);
+
+    saveAssets(assets);
+
+    updateAssetDisplay();
+
+    updateDashboard();
+
+    updatePortfolioDisplay();
+
+}
