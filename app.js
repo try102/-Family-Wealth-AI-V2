@@ -64,6 +64,8 @@ window.onload=function(){
 
     updateDashboard();
 
+    updatePortfolioDisplay();
+
     const button =
 
     document.querySelector(".ai-btn");
@@ -77,6 +79,66 @@ window.onload=function(){
     }
 
 };
+
+// 显示投资组合分析
+
+function updatePortfolioDisplay(){
+
+    const result =
+
+    document.getElementById("portfolioResult");
+
+    const score =
+
+    document.getElementById("riskScore");
+
+    if(typeof calculateAllocation !== "function"){
+
+        return;
+
+    }
+
+    const allocation =
+
+    calculateAllocation();
+
+    let html = "";
+
+    Object.keys(allocation).forEach(type=>{
+
+        html +=
+
+        `
+
+        <p>
+
+        ${type}：
+
+        ${allocation[type]}%
+
+        </p>
+
+        `;
+
+    });
+
+    if(result){
+
+        result.innerHTML = html || "暂无投资数据";
+
+    }
+
+    if(score){
+
+        score.innerHTML =
+
+        calculateRiskScore()
+
+        + " / 100";
+
+    }
+
+}
 function addNewAsset(){
 
     const name =
