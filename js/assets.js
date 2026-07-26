@@ -1,24 +1,14 @@
-// Family Wealth AI Agent V2.1
+// Family Wealth AI Agent V2.1.1
 
-// Asset Management Module
-
-// 获取本地资产数据
+// Asset Management
 
 function getAssets(){
 
     const data = localStorage.getItem("familyAssets");
 
-    if(data){
-
-        return JSON.parse(data);
-
-    }
-
-    return [];
+    return data ? JSON.parse(data) : [];
 
 }
-
-// 保存资产数据
 
 function saveAssets(assets){
 
@@ -32,21 +22,17 @@ function saveAssets(assets){
 
 }
 
-// 添加资产
+function addAsset(name,type,amount){
 
-function addAsset(name, type, amount){
-
-    let assets = getAssets();
+    let assets=getAssets();
 
     assets.push({
 
         name:name,
 
-        type:type,
+        type:type || "其他资产",
 
-        amount:Number(amount),
-
-        date:new Date().toLocaleDateString()
+        amount:Number(amount)
 
     });
 
@@ -58,17 +44,13 @@ function addAsset(name, type, amount){
 
 }
 
-// 计算总资产
-
 function calculateTotalAssets(){
 
-    let assets = getAssets();
+    let assets=getAssets();
 
     return assets.reduce(
 
-        (total,item)=>
-
-        total + item.amount,
+        (sum,item)=>sum+item.amount,
 
         0
 
@@ -76,13 +58,23 @@ function calculateTotalAssets(){
 
 }
 
-// 显示资产列表
+function deleteAsset(index){
+
+    let assets=getAssets();
+
+    assets.splice(index,1);
+
+    saveAssets(assets);
+
+    updateAssetDisplay();
+
+    updateDashboard();
+
+}
 
 function updateAssetDisplay(){
 
-    const list =
-
-    document.getElementById("assetList");
+    const list=document.getElementById("assetList");
 
     if(!list){
 
@@ -104,15 +96,21 @@ function updateAssetDisplay(){
 
         `
 
-        <strong>${item.name}</strong>
+        <p>
 
-        <br>
+        <b>${item.name}</b><br>
 
-        类型：${item.type}
-
-        <br>
+        类型：${item.type}<br>
 
         金额：¥ ${item.amount.toLocaleString()}
+
+        </p>
+
+        <button onclick="deleteAsset(${index})">
+
+        删除
+
+        </button>
 
         `;
 
@@ -121,8 +119,6 @@ function updateAssetDisplay(){
     });
 
 }
-
-// 初始化
 
 window.addEventListener(
 
@@ -135,18 +131,3 @@ window.addEventListener(
 }
 
 );
-function deleteAsset(index){
-
-    let assets = getAssets();
-
-    assets.splice(index,1);
-
-    saveAssets(assets);
-
-    updateAssetDisplay();
-
-    updateDashboard();
-
-    updatePortfolioDisplay();
-
-}
