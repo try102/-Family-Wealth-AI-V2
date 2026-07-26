@@ -1,224 +1,195 @@
-// Family Wealth AI Agent V2.0
+// Family Wealth AI Agent V2.3
 
-// Core Application
+// Asset Management Module
 
-// 初始家庭财富数据
+// 获取资产数据
 
-const wealthData = {
+function getAssets(){
 
-    assets: 0,
+    const data = localStorage.getItem("familyAssets");
 
-    liability: 0
+    if(data){
 
-};
-
-// 更新财富数据显示
-
-function updateDashboard(){
-
-    if(typeof calculateTotalAssets === "function"){
-
-        wealthData.assets = calculateTotalAssets();
+        return JSON.parse(data);
 
     }
 
-    const networth =
-
-    wealthData.assets - wealthData.liability;
-
-    document.getElementById("assets")
-
-    .innerHTML =
-
-    "¥ " + wealthData.assets.toLocaleString();
-
-    document.getElementById("liability")
-
-    .innerHTML =
-
-    "¥ " + wealthData.liability.toLocaleString();
-
-    document.getElementById("networth")
-
-    .innerHTML =
-
-    "¥ " + networth.toLocaleString();
+    return [];
 
 }
 
-// AI分析按钮
+// 保存资产数据
 
-function startAIAnalysis(){
+function saveAssets(assets){
 
-    alert(
+    localStorage.setItem(
 
-    "AI财富分析模块正在建设中。\n\n未来将支持：\n资产配置分析\n投资风险评估\n退休规划\n财富传承"
+        "familyAssets",
+
+        JSON.stringify(assets)
 
     );
 
 }
 
-// 页面启动
+// 添加资产
 
-window.onload=function(){
+function addAsset(asset){
 
-    updateDashboard();
+    let assets = getAssets();
 
-    updatePortfolioDisplay();
+    assets.push(asset);
 
-    const button =
+    saveAssets(assets);
 
-    document.querySelector(".ai-btn");
+    updateAssetDisplay();
 
-    if(button){
+    if(typeof updateDashboard === "function"){
 
-        button.onclick =
-
-        startAIAnalysis;
-
-    }
-
-};
-
-// 显示投资组合分析
-
-function updatePortfolioDisplay(){
-
-    const result =
-
-    document.getElementById("portfolioResult");
-
-    const score =
-
-    document.getElementById("riskScore");
-
-    if(typeof calculateAllocation !== "function"){
-
-        return;
-
-    }
-
-    const allocation =
-
-    calculateAllocation();
-
-    let html = "";
-
-    Object.keys(allocation).forEach(type=>{
-
-        html +=
-
-        `
-
-        <p>
-
-        ${type}：
-
-        ${allocation[type]}%
-
-        </p>
-
-        `;
-
-    });
-
-    if(result){
-
-        result.innerHTML = html || "暂无投资数据";
-
-    }
-
-    if(score){
-
-        score.innerHTML =
-
-        calculateRiskScore()
-
-        + " / 100";
+        updateDashboard();
 
     }
 
 }
-function addNewAsset(){
 
-    let asset = {
+// 计算总资产
 
-        name: document.getElementById("assetName").value,
+function calculateTotalAssets(){
 
-        category: document.getElementById("assetCategory").value,
+    let assets = getAssets();
 
-        type: document.getElementById("assetType").value,
+    let total = 0;
 
-        country: document.getElementById("assetCountry").value,
+    assets.forEach(item=>{
 
-        currency: document.getElementById("assetCurrency").value,
+        total += Number(item.amount || 0);
 
-        institution: document.getElementById("assetInstitution").value,
+    });
 
-        account: document.getElementById("assetAccount").value,
+    return total;
 
-        amount: Number(
+}
 
-            document.getElementById("assetAmount").value
+// 删除资产
 
-        )
+function deleteAsset(index){
 
-    };
+    let assets = getAssets();
 
-    if(!asset.name || !asset.amount){
+    assets.splice(index,1);
 
-        alert("请输入资产名称和金额");
+    saveAssets(assets);
+
+    updateAssetDisplay();
+
+    if(typeof updateDashboard === "function"){
+
+        updateDashboard();
+
+    }
+
+}
+
+// 显示资产列表
+
+function updateAssetDisplay(){
+
+    const list =
+
+    document.getElementById("assetList");
+
+    if(!list){
 
         return;
 
     }
 
-    addAsset(asset);
+    let assets = getAssets();
+
+    list.innerHTML = "";
+
+    assets.forEach((item,index)=>{
+
+        let div =
+
+        document.createElement("div");
+
+        div.className="asset-item";
+
+        div.innerHTML = `
+
+        <hr>
+
+        <b>${item.name || ""}</b>
+
+        <br>
+
+        一级类别：
+
+        ${item.category || "未分类"}
+
+        <br>
+
+        二级类别：
+
+        ${item.type || "未分类"}
+
+        <br>
+
+        国家：
+
+        ${item.country || "未填写"}
+
+        <br>
+
+        币种：
+
+        ${item.currency || "未填写"}
+
+        <br>
+
+        机构：
+
+        ${item.institution || "未填写"}
+
+        <br>
+
+        账户：
+
+        ${item.account || "未填写"}
+
+        <br>
+
+        金额：
+
+        ¥${Number(item.amount || 0).toLocaleString()}
+
+        <br><br>
+
+        <button onclick="deleteAsset(${index})">
+
+        删除
+
+        </button>
+
+        `;
+
+        list.appendChild(div);
+
+    });
+
+}
+
+// 页面加载时显示已有资产
+
+window.addEventListener(
+
+"load",
+
+function(){
 
     updateAssetDisplay();
 
 }
-    if(!asset.name || !asset.amount){
 
-        alert("请输入资产名称和金额");
-
-        return;
-
-    }
-
-    addAsset(asset);
-
-    document.getElementById("assetName").value="";
-
-    document.getElementById("assetCategory").value="";
-
-    document.getElementById("assetType").value="";
-
-    document.getElementById("assetCountry").value="";
-
-    document.getElementById("assetCurrency").value="";
-
-    document.getElementById("assetInstitution").value="";
-
-    document.getElementById("assetAccount").value="";
-
-    document.getElementById("assetAmount").value="";
-
-}
-    addAsset(
-
-        name,
-
-        type,
-
-        amount
-
-    );
-
-    document.getElementById("assetName").value="";
-
-    document.getElementById("assetType").value="";
-
-    document.getElementById("assetAmount").value="";
-
-}
+);
