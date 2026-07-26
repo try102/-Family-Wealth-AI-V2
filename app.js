@@ -5,7 +5,7 @@
 // 添加资产
 
 function addNewAsset(){
-
+alert("按钮运行了");
     let asset = {
 
         name:
