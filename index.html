@@ -1,163 +1,72 @@
-＇<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="zh-CN">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Family Wealth AI Agent</title>
+<title>Family Wealth AI Agent V3.0</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header>
+<h1>
 
-    <h1>🏦 Family Wealth AI Agent</h1>
+家庭财富 AI Agent V3.0
 
-    <p>家庭财富智能管理系统 V2.0</p>
+</h1>
 
-</header>
+<h2>
 
-<nav>
+财富总览
 
-    <button>财富总览</button>
+</h2>
 
-    <button>资产管理</button>
+<div id="totalAssets">
 
-    <button>投资分析</button>
+¥0
 
-    <button>退休规划</button>
+</div>
 
-    <button>AI顾问</button>
+<h2>
 
-</nav>
+添加资产
 
-<main>
-
-<section class="card">
-
-    <h2>📊 财富总览</h2>
-
-    <div class="grid">
-
-        <div class="box">
-
-            <h3>总资产</h3>
-
-            <p id="assets">¥ 0</p>
-
-        </div>
-
-        <div class="box">
-
-            <h3>负债</h3>
-
-            <p id="liability">¥ 0</p>
-
-        </div>
-
-        <div class="box">
-
-            <h3>净资产</h3>
-
-            <p id="networth">¥ 0</p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<section class="card">
-
-<h2>🤖 AI 财富助手</h2>
-
-<p>
-
-系统将帮助分析：
-
-</p>
-
-<ul>
-
-<li>家庭资产配置</li>
-
-<li>投资风险</li>
-
-<li>现金流规划</li>
-
-<li>退休方案</li>
-
-<li>财富传承</li>
-
-</ul>
-
-<button class="ai-btn">
-
-开始 AI 分析
-
-</button>
-
-</section>
-<section class="card">
-
-<h2>💰 资产录入</h2>
+</h2>
 
 <div class="asset-form">
 
-<div class="asset-form">
+<input id="assetName"
 
-<input 
+placeholder="资产名称">
 
-id="assetName"
+<input id="assetCategory"
 
-placeholder="资产名称，例如 VGT">
+placeholder="资产分类（股票/现金/房产）">
 
-<input 
+<input id="assetType"
 
-id="assetCategory"
+placeholder="资产类型">
 
-placeholder="一级类别，例如 投资资产">
+<input id="assetCountry"
 
-<input 
+placeholder="国家">
 
-id="assetType"
+<input id="assetCurrency"
 
-placeholder="二级类别，例如 ETF">
+placeholder="币种">
 
-<input 
+<input id="assetInstitution"
 
-id="assetCountry"
+placeholder="机构">
 
-placeholder="国家，例如 美国">
-
-<input 
-
-id="assetCurrency"
-
-placeholder="币种，例如 USD">
-
-<input 
-
-id="assetInstitution"
-
-placeholder="机构，例如 Vanguard">
-
-<input 
-
-id="assetAccount"
-
-placeholder="账户，例如 Brokerage">
-
-<input 
-
-id="assetAmount"
+<input id="assetAmount"
 
 type="number"
 
@@ -170,75 +79,20 @@ placeholder="金额">
 </button>
 
 </div>
-添加资产
 
-</button>
+<h2>
 
-</div>
+资产列表
 
-<h3>已有资产</h3>
+</h2>
 
 <div id="assetList">
 
 </div>
 
-</section>
-<section class="card">
+<script src="assets/assets.js"></script>
 
-<h2>📊 投资组合分析</h2>
-
-<div id="portfolioResult">
-
-暂无投资数据
-
-</div>
-
-<h3>
-
-风险评分
-
-</h3>
-
-<div id="riskScore">
-
--
-
-</div>
-
-</section>
-<section class="card">
-
-<h2>📈 财富健康评分</h2>
-
-<div class="score">
-
-80
-
-</div>
-
-<p>
-
-当前财富健康状态：良好
-
-</p>
-
-</section>
-
-</main>
-
-<footer>
-
-<p>
-
-Family Wealth AI Agent © 2026
-
-</p>
-
-</footer>
-
-<script src="js/assets.js"></script>
-
-<script src="js/portfolio.js"></script>
+<script src="assets/portfolio.js"></script>
 
 <script src="app.js"></script>
 
