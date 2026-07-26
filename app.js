@@ -16,6 +16,12 @@ const wealthData = {
 
 function updateDashboard(){
 
+    if(typeof calculateTotalAssets === "function"){
+
+        wealthData.assets = calculateTotalAssets();
+
+    }
+
     const networth =
 
     wealthData.assets - wealthData.liability;
