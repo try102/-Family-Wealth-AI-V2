@@ -141,19 +141,47 @@ function updatePortfolioDisplay(){
 }
 function addNewAsset(){
 
-    const name =
+    const asset = {
 
-    document.getElementById("assetName").value;
+        name:
 
-    const type =
+        document.getElementById("assetName").value,
 
-    document.getElementById("assetType").value;
+        category:
 
-    const amount =
+        document.getElementById("assetCategory").value,
 
-    document.getElementById("assetAmount").value;
+        type:
 
-    if(!name || !amount){
+        document.getElementById("assetType").value,
+
+        country:
+
+        document.getElementById("assetCountry").value,
+
+        currency:
+
+        document.getElementById("assetCurrency").value,
+
+        institution:
+
+        document.getElementById("assetInstitution").value,
+
+        account:
+
+        document.getElementById("assetAccount").value,
+
+        amount:
+
+        Number(
+
+        document.getElementById("assetAmount").value
+
+        )
+
+    };
+
+    if(!asset.name || !asset.amount){
 
         alert("请输入资产名称和金额");
 
@@ -161,6 +189,25 @@ function addNewAsset(){
 
     }
 
+    addAsset(asset);
+
+    document.getElementById("assetName").value="";
+
+    document.getElementById("assetCategory").value="";
+
+    document.getElementById("assetType").value="";
+
+    document.getElementById("assetCountry").value="";
+
+    document.getElementById("assetCurrency").value="";
+
+    document.getElementById("assetInstitution").value="";
+
+    document.getElementById("assetAccount").value="";
+
+    document.getElementById("assetAmount").value="";
+
+}
     addAsset(
 
         name,
