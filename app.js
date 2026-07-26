@@ -1,12 +1,11 @@
-alert("111");
-// Family Wealth AI Agent V2.3
+// Family Wealth AI Agent V3.0
 
 // Application Controller
 
-// 添加资产
+// 添加新资产
 
 function addNewAsset(){
-alert("按钮运行了");
+
     let asset = {
 
         name:
@@ -33,10 +32,6 @@ alert("按钮运行了");
 
         document.getElementById("assetInstitution").value,
 
-        account:
-
-        document.getElementById("assetAccount").value,
-
         amount:
 
         Number(
@@ -49,7 +44,11 @@ alert("按钮运行了");
 
     if(!asset.name || !asset.amount){
 
-        alert("请输入资产名称和金额");
+        alert(
+
+            "请输入资产名称和金额"
+
+        );
 
         return;
 
@@ -65,7 +64,11 @@ alert("按钮运行了");
 
     .forEach(
 
-        input => input.value=""
+        input=>{
+
+            input.value="";
+
+        }
 
     );
 
@@ -79,15 +82,25 @@ function updateDashboard(){
 
     calculateTotalAssets();
 
-    let totalBox =
+    let box =
 
-    document.getElementById("totalAssets");
+    document.getElementById(
 
-    if(totalBox){
+        "totalAssets"
 
-        totalBox.innerHTML =
+    );
 
-        "¥" + total.toLocaleString();
+    if(box){
+
+        box.innerHTML =
+
+        "¥" +
+
+        total.toLocaleString(
+
+            "zh-CN"
+
+        );
 
     }
 
@@ -95,76 +108,26 @@ function updateDashboard(){
 
 // 页面启动
 
-window.onload=function(){
+window.addEventListener(
+
+"load",
+
+()=>{
 
     updateAssetDisplay();
 
     updateDashboard();
 
-    if(typeof updatePortfolioDisplay === "function"){
+    if(
+
+    typeof updatePortfolioDisplay
+
+    === "function"
+
+    ){
 
         updatePortfolioDisplay();
 
     }
 
-};
-
-        <br>
-
-        国家：
-
-        ${item.country || "未填写"}
-
-        <br>
-
-        币种：
-
-        ${item.currency || "未填写"}
-
-        <br>
-
-        机构：
-
-        ${item.institution || "未填写"}
-
-        <br>
-
-        账户：
-
-        ${item.account || "未填写"}
-
-        <br>
-
-        金额：
-
-        ¥${Number(item.amount || 0).toLocaleString()}
-
-        <br><br>
-
-        <button onclick="deleteAsset(${index})">
-
-        删除
-
-        </button>
-
-        `;
-
-        list.appendChild(div);
-
-    });
-
-}
-
-// 页面加载时显示已有资产
-
-window.addEventListener(
-
-"load",
-
-function(){
-
-    updateAssetDisplay();
-
-}
-
-);
+});
