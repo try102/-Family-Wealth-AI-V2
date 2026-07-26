@@ -1,138 +1,112 @@
 // Family Wealth AI Agent V2.3
 
-// Asset Management Module
-
-// 获取资产数据
-
-function getAssets(){
-
-    const data = localStorage.getItem("familyAssets");
-
-    if(data){
-
-        return JSON.parse(data);
-
-    }
-
-    return [];
-
-}
-
-// 保存资产数据
-
-function saveAssets(assets){
-
-    localStorage.setItem(
-
-        "familyAssets",
-
-        JSON.stringify(assets)
-
-    );
-
-}
+// Application Controller
 
 // 添加资产
 
-function addAsset(asset){
+function addNewAsset(){
 
-    let assets = getAssets();
+    let asset = {
 
-    assets.push(asset);
+        name:
 
-    saveAssets(assets);
+        document.getElementById("assetName").value,
 
-    updateAssetDisplay();
+        category:
 
-    if(typeof updateDashboard === "function"){
+        document.getElementById("assetCategory").value,
 
-        updateDashboard();
+        type:
 
-    }
+        document.getElementById("assetType").value,
 
-}
+        country:
 
-// 计算总资产
+        document.getElementById("assetCountry").value,
 
-function calculateTotalAssets(){
+        currency:
 
-    let assets = getAssets();
+        document.getElementById("assetCurrency").value,
 
-    let total = 0;
+        institution:
 
-    assets.forEach(item=>{
+        document.getElementById("assetInstitution").value,
 
-        total += Number(item.amount || 0);
+        account:
 
-    });
+        document.getElementById("assetAccount").value,
 
-    return total;
+        amount:
 
-}
+        Number(
 
-// 删除资产
+            document.getElementById("assetAmount").value
 
-function deleteAsset(index){
+        )
 
-    let assets = getAssets();
+    };
 
-    assets.splice(index,1);
+    if(!asset.name || !asset.amount){
 
-    saveAssets(assets);
-
-    updateAssetDisplay();
-
-    if(typeof updateDashboard === "function"){
-
-        updateDashboard();
-
-    }
-
-}
-
-// 显示资产列表
-
-function updateAssetDisplay(){
-
-    const list =
-
-    document.getElementById("assetList");
-
-    if(!list){
+        alert("请输入资产名称和金额");
 
         return;
 
     }
 
-    let assets = getAssets();
+    addAsset(asset);
 
-    list.innerHTML = "";
+    document.querySelectorAll(
 
-    assets.forEach((item,index)=>{
+        ".asset-form input"
 
-        let div =
+    )
 
-        document.createElement("div");
+    .forEach(
 
-        div.className="asset-item";
+        input => input.value=""
 
-        div.innerHTML = `
+    );
 
-        <hr>
+}
 
-        <b>${item.name || ""}</b>
+// 更新财富总览
 
-        <br>
+function updateDashboard(){
 
-        一级类别：
+    let total =
 
-        ${item.category || "未分类"}
+    calculateTotalAssets();
 
-        <br>
+    let totalBox =
 
-        二级类别：
+    document.getElementById("totalAssets");
 
-        ${item.type || "未分类"}
+    if(totalBox){
+
+        totalBox.innerHTML =
+
+        "¥" + total.toLocaleString();
+
+    }
+
+}
+
+// 页面启动
+
+window.onload=function(){
+
+    updateAssetDisplay();
+
+    updateDashboard();
+
+    if(typeof updatePortfolioDisplay === "function"){
+
+        updatePortfolioDisplay();
+
+    }
+
+};
 
         <br>
 
