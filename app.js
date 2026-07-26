@@ -77,3 +77,42 @@ window.onload=function(){
     }
 
 };
+function addNewAsset(){
+
+    const name =
+
+    document.getElementById("assetName").value;
+
+    const type =
+
+    document.getElementById("assetType").value;
+
+    const amount =
+
+    document.getElementById("assetAmount").value;
+
+    if(!name || !amount){
+
+        alert("请输入资产名称和金额");
+
+        return;
+
+    }
+
+    addAsset(
+
+        name,
+
+        type,
+
+        amount
+
+    );
+
+    document.getElementById("assetName").value="";
+
+    document.getElementById("assetType").value="";
+
+    document.getElementById("assetAmount").value="";
+
+}
