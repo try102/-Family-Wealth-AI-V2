@@ -1,30 +1,20 @@
-// Family Wealth AI Agent V2.3
+// Family Wealth AI Agent V3.0
 
-// Asset Management Module
+// Asset Data Engine
 
-// 获取资产数据
+let assets = JSON.parse(
 
-function getAssets(){
+    localStorage.getItem("wealthAssets")
 
-    const data = localStorage.getItem("familyAssets");
+) || [];
 
-    if(data){
+// 保存资产
 
-        return JSON.parse(data);
-
-    }
-
-    return [];
-
-}
-
-// 保存资产数据
-
-function saveAssets(assets){
+function saveAssets(){
 
     localStorage.setItem(
 
-        "familyAssets",
+        "wealthAssets",
 
         JSON.stringify(assets)
 
@@ -36,37 +26,13 @@ function saveAssets(assets){
 
 function addAsset(asset){
 
-    let assets = getAssets();
-
     assets.push(asset);
 
-    saveAssets(assets);
+    saveAssets();
 
     updateAssetDisplay();
 
-    if(typeof updateDashboard === "function"){
-
-        updateDashboard();
-
-    }
-
-}
-
-// 计算总资产
-
-function calculateTotalAssets(){
-
-    let assets = getAssets();
-
-    let total = 0;
-
-    assets.forEach(item=>{
-
-        total += Number(item.amount || 0);
-
-    });
-
-    return total;
+    updateDashboard();
 
 }
 
@@ -74,19 +40,27 @@ function calculateTotalAssets(){
 
 function deleteAsset(index){
 
-    let assets = getAssets();
-
     assets.splice(index,1);
 
-    saveAssets(assets);
+    saveAssets();
 
     updateAssetDisplay();
 
-    if(typeof updateDashboard === "function"){
+    updateDashboard();
 
-        updateDashboard();
+}
 
-    }
+// 计算总资产
+
+function calculateTotalAssets(){
+
+    return assets.reduce(
+
+        (sum,item)=>sum+Number(item.amount||0),
+
+        0
+
+    );
 
 }
 
@@ -94,79 +68,75 @@ function deleteAsset(index){
 
 function updateAssetDisplay(){
 
-    const list =
+    let list=document.getElementById(
 
-    document.getElementById("assetList");
+        "assetList"
 
-    if(!list){
+    );
 
-        return;
+    if(!list) return;
 
-    }
+    list.innerHTML="";
 
-    let assets = getAssets();
+    assets.forEach(
 
-    list.innerHTML = "";
+        (item,index)=>{
 
-    assets.forEach((item,index)=>{
+        let div=document.createElement(
 
-        let div =
+            "div"
 
-        document.createElement("div");
+        );
 
-        div.className="asset-item";
+        div.className="asset-card";
 
-        div.innerHTML = `
+        div.innerHTML=`
 
-        <hr>
-
-        <b>${item.name || ""}</b>
+        <b>${item.name}</b>
 
         <br>
 
-        一级类别：
+        分类：
 
-        ${item.category || "未分类"}
+        ${item.category}
 
         <br>
 
-        二级类别：
+        类型：
 
-        ${item.type || "未分类"}
+        ${item.type}
 
         <br>
 
         国家：
 
-        ${item.country || "未填写"}
+        ${item.country}
 
         <br>
 
         币种：
 
-        ${item.currency || "未填写"}
+        ${item.currency}
 
         <br>
 
         机构：
 
-        ${item.institution || "未填写"}
-
-        <br>
-
-        账户：
-
-        ${item.account || "未填写"}
+        ${item.institution}
 
         <br>
 
         金额：
 
-        ¥${Number(item.amount || 0).toLocaleString()}
+        ¥${Number(item.amount).toLocaleString()}
 
         <br><br>
 
-        <button onclick="deleteAsset(${index})">
+        <button onclick="
+
+        deleteAsset(${index})
+
+        ">
 
         删除
 
@@ -179,17 +149,3 @@ function updateAssetDisplay(){
     });
 
 }
-
-// 页面加载时显示已有资产
-
-window.addEventListener(
-
-"load",
-
-function(){
-
-    updateAssetDisplay();
-
-}
-
-);
