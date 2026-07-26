@@ -1,6 +1,8 @@
-// Family Wealth AI Agent V2.1.1
+// Family Wealth AI Agent V2.3
 
-// Asset Management
+// Multi Dimension Asset Data Model
+
+// 获取资产
 
 function getAssets(){
 
@@ -9,6 +11,8 @@ function getAssets(){
     return data ? JSON.parse(data) : [];
 
 }
+
+// 保存资产
 
 function saveAssets(assets){
 
@@ -22,19 +26,13 @@ function saveAssets(assets){
 
 }
 
-function addAsset(name,type,amount){
+// 添加资产
 
-    let assets=getAssets();
+function addAsset(asset){
 
-    assets.push({
+    let assets = getAssets();
 
-        name:name,
-
-        type:type || "其他资产",
-
-        amount:Number(amount)
-
-    });
+    assets.push(asset);
 
     saveAssets(assets);
 
@@ -44,13 +42,15 @@ function addAsset(name,type,amount){
 
 }
 
+// 计算总资产
+
 function calculateTotalAssets(){
 
-    let assets=getAssets();
+    let assets = getAssets();
 
     return assets.reduce(
 
-        (sum,item)=>sum+item.amount,
+        (sum,item)=>sum + Number(item.amount),
 
         0
 
@@ -58,9 +58,11 @@ function calculateTotalAssets(){
 
 }
 
+// 删除资产
+
 function deleteAsset(index){
 
-    let assets=getAssets();
+    let assets = getAssets();
 
     assets.splice(index,1);
 
@@ -72,9 +74,13 @@ function deleteAsset(index){
 
 }
 
+// 显示资产
+
 function updateAssetDisplay(){
 
-    const list=document.getElementById("assetList");
+    const list =
+
+    document.getElementById("assetList");
 
     if(!list){
 
@@ -82,7 +88,7 @@ function updateAssetDisplay(){
 
     }
 
-    let assets=getAssets();
+    let assets = getAssets();
 
     list.innerHTML="";
 
@@ -100,9 +106,29 @@ function updateAssetDisplay(){
 
         <b>${item.name}</b><br>
 
-        类型：${item.type}<br>
+        一级类别：
 
-        金额：¥ ${item.amount.toLocaleString()}
+        ${item.category}<br>
+
+        二级类别：
+
+        ${item.type}<br>
+
+        国家：
+
+        ${item.country}<br>
+
+        币种：
+
+        ${item.currency}<br>
+
+        机构：
+
+        ${item.institution}<br>
+
+        金额：
+
+        ¥${Number(item.amount).toLocaleString()}
 
         </p>
 
