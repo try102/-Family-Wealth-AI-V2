@@ -1,18 +1,24 @@
 // Family Wealth AI Agent V2.3
 
-// Multi Dimension Asset Data Model
+// Asset Management Module
 
-// 获取资产
+// 获取资产数据
 
 function getAssets(){
 
     const data = localStorage.getItem("familyAssets");
 
-    return data ? JSON.parse(data) : [];
+    if(data){
+
+        return JSON.parse(data);
+
+    }
+
+    return [];
 
 }
 
-// 保存资产
+// 保存资产数据
 
 function saveAssets(assets){
 
@@ -38,7 +44,11 @@ function addAsset(asset){
 
     updateAssetDisplay();
 
-    updateDashboard();
+    if(typeof updateDashboard === "function"){
+
+        updateDashboard();
+
+    }
 
 }
 
@@ -48,13 +58,15 @@ function calculateTotalAssets(){
 
     let assets = getAssets();
 
-    return assets.reduce(
+    let total = 0;
 
-        (sum,item)=>sum + Number(item.amount),
+    assets.forEach(item=>{
 
-        0
+        total += Number(item.amount || 0);
 
-    );
+    });
+
+    return total;
 
 }
 
@@ -70,11 +82,15 @@ function deleteAsset(index){
 
     updateAssetDisplay();
 
-    updateDashboard();
+    if(typeof updateDashboard === "function"){
+
+        updateDashboard();
+
+    }
 
 }
 
-// 显示资产
+// 显示资产列表
 
 function updateAssetDisplay(){
 
@@ -90,47 +106,65 @@ function updateAssetDisplay(){
 
     let assets = getAssets();
 
-    list.innerHTML="";
+    list.innerHTML = "";
 
     assets.forEach((item,index)=>{
 
-        let div=document.createElement("div");
+        let div =
+
+        document.createElement("div");
 
         div.className="asset-item";
 
-        div.innerHTML=
+        div.innerHTML = `
 
-        `
+        <hr>
 
-        <p>
+        <b>${item.name || ""}</b>
 
-        <b>${item.name}</b><br>
+        <br>
 
         一级类别：
 
-        ${item.category}<br>
+        ${item.category || "未分类"}
+
+        <br>
 
         二级类别：
 
-        ${item.type}<br>
+        ${item.type || "未分类"}
+
+        <br>
 
         国家：
 
-        ${item.country}<br>
+        ${item.country || "未填写"}
+
+        <br>
 
         币种：
 
-        ${item.currency}<br>
+        ${item.currency || "未填写"}
+
+        <br>
 
         机构：
 
-        ${item.institution}<br>
+        ${item.institution || "未填写"}
+
+        <br>
+
+        账户：
+
+        ${item.account || "未填写"}
+
+        <br>
 
         金额：
 
-        ¥${Number(item.amount).toLocaleString()}
+        ¥${Number(item.amount || 0).toLocaleString()}
 
-        </p>
+        <br><br>
 
         <button onclick="deleteAsset(${index})">
 
@@ -146,11 +180,13 @@ function updateAssetDisplay(){
 
 }
 
+// 页面加载时显示已有资产
+
 window.addEventListener(
 
 "load",
 
-()=>{
+function(){
 
     updateAssetDisplay();
 
