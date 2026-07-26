@@ -1,4 +1,4 @@
-alert("app.js加载成功");
+alert("111");
 // Family Wealth AI Agent V2.3
 
 // Application Controller
